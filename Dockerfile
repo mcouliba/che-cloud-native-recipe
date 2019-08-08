@@ -10,11 +10,10 @@ FROM eclipse/centos_jdk8
 # FROM registry.centos.org/che-stacks/centos-jdk8
 # EXPOSE 4403 8080 8000 22
 
-ARG OC_VERSION=3.11.43
-ARG ODO_VERSION=v0.0.20
+ARG OC_VERSION=4.2
+ARG ODO_VERSION=v1.0.0-beta4
 ARG KUBECTL_VERSION=v1.13.3
-ARG SQUASHCTL_VERSION=v0.5.12
-ARG GRAALVM_VERSION=1.0.0-rc13
+ARG SQUASHCTL_VERSION=v0.5.18
 ARG GO_VERSION=1.12.4
 
 # ENV PATH=${JAVA_HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -53,7 +52,7 @@ RUN sudo yum update -y && \
     sudo yum install -y bzip2 tar curl wget
 
 # Install oc
-RUN sudo wget -qO- "https://mirror.openshift.com/pub/openshift-v3/clients/${OC_VERSION}/linux/oc.tar.gz" | sudo tar xvz -C /usr/local/bin && \
+RUN sudo wget -qO- "https://mirror.openshift.com/pub/openshift-v4/clients/oc/${OC_VERSION}/linux/oc.tar.gz" | sudo tar xvz -C /usr/local/bin && \
     oc version
 
 # Install nodejs for ls agents
@@ -68,7 +67,7 @@ RUN sudo yum install -y epel-release && \
     sudo yum install -y siege
 
 # Install Openshift DO (ODO)
-RUN sudo curl -L https://github.com/redhat-developer/odo/releases/download/${ODO_VERSION}/odo-linux-amd64 -o /usr/local/bin/odo && \
+RUN sudo curl -L https://github.com/openshift/odo/releases/download/${ODO_VERSION}/odo-linux-amd64 -o /usr/local/bin/odo && \
     sudo chmod +x /usr/local/bin/odo
 
 # Install squashctl (kubectl)
@@ -77,13 +76,6 @@ RUN sudo wget -qO /usr/local/bin/squashctl https://github.com/solo-io/squash/rel
 ADD https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
 RUN sudo chmod +x /usr/local/bin/kubectl && \
     kubectl version --client
-
-# Install GraalVM
-ENV GRAALVM_HOME=/home/user/graalvm
-ENV PATH=${GRAALVM_HOME}/bin:${PATH}
-RUN mkdir ${GRAALVM_HOME} && \
-    sudo wget -qO- https://github.com/oracle/graal/releases/download/vm-${GRAALVM_VERSION}/graalvm-ce-${GRAALVM_VERSION}-linux-amd64.tar.gz | tar -zx --strip-components=1 -C ${GRAALVM_HOME} && \
-    sudo yum install -y zlib-devel gcc
 
 # Install Golang
 ENV GOPATH /go
