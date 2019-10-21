@@ -6,14 +6,12 @@
 #
 # Contributors: Madou Coulibaly mcouliba@redhat.com
 
-FROM eclipse/centos_jdk8
-# FROM registry.centos.org/che-stacks/centos-jdk8
-# EXPOSE 4403 8080 8000 22
+FROM registry.access.redhat.com/codeready-workspaces/stacks-java-rhel8
 
 ARG OC_VERSION=4.2
-ARG ODO_VERSION=v1.0.0-beta4
-ARG KUBECTL_VERSION=v1.13.3
-ARG SQUASHCTL_VERSION=v0.5.15
+ARG ODO_VERSION=v1.0.0-beta6
+ARG KUBECTL_VERSION=v1.14.6
+ARG SQUASHCTL_VERSION=v0.5.12
 ARG GO_VERSION=1.12.4
 
 # ENV PATH=${JAVA_HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
