@@ -23,7 +23,7 @@ ARG GO_VERSION=1.12.4
 #     scl enable rh-maven35 bash
     
 # Install Development Tools
-RUN sudo yum group install -y "Development Tools"
+#RUN sudo yum group install -y "Development Tools"
 
 # Install EPEL
 RUN sudo yum update -y && \
